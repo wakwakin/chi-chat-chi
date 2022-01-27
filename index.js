@@ -1,4 +1,3 @@
-
 const express = require('express'),
       mongoose = require('mongoose'),
       app = express(),
@@ -22,5 +21,5 @@ app.use(express.static(__dirname + '/public'))
 app.use('/', require('./routes/index'))
 
 mongoose.connect(process.env.DB).then(() => {
-  https.listen(3000 || process.env.PORT)
+  https.listen(process.env.PORT)
 })
