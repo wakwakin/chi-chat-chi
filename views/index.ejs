@@ -1,0 +1,71 @@
+<title>Chichat</title>
+<link rel="stylesheet" href="/css/main.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js" integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<% if (!user) { %>
+  <form id="login-user">
+    <h1>Login</h1>
+    <div class="form-input">
+      <input id="login-username" type="text" placeholder="Username" maxlength="15" required>
+    </div>
+    <div class="form-input">
+      <input id="login-password" type="password" placeholder="Password" required>
+    </div>
+    <div class="form-input">
+      <button id="login-button">Login</button>
+    </div>
+    <span class="form-notification" id="login-notification"></span>
+  </form>
+  <form id="register-user">
+    <h1>Register</h1>
+    <div class="form-input">
+      <input id="register-username" type="text" placeholder="Username" maxlength="15" required>
+    </div>
+    <div class="form-input">
+      <input id="register-password" type="password" placeholder="Password" required>
+    </div>
+    <div class="form-input">
+      <button id="register-button">Register</button>
+    </div>
+    <span class="form-notification" id="register-notification"></span>
+  </form>
+<% } else { %>
+  <div>
+    <span id="user-logged-in"></span>
+    <button id="logout-button">Logout</button>
+  </div>
+  <div>
+    <form>
+      <input id="update-name" type="text" maxlength="20" required>
+      <span>#</span>
+      <input id="update-tag" type="number" min="0" max="9999" value="<%= tag %>" maxlength="4" required>
+      <input id="update-password-confirm" type="password" placeholder="Current password">
+      <button id="update-button">Done</button>
+    </form>
+  </div>
+  <form>
+    <input id="add-server-link" type="text" placeholder="Server link" required>
+    <button id="add-server-button">Add server</button>
+  </form>
+  <form>
+    <input id="create-server-name" type="text" maxlength="15" placeholder="Server name" required>
+    <button id="create-server-button">Create server</button>
+  </form>
+  <div id="server-list">
+  </div>
+  <div>
+    <div id="message-list">
+    </div>
+    <form>
+      <input id="message-text" minlength="1" type="text" placeholder="Message" required>
+      <button id="message-button">Send</button>
+    </form>
+  </div>
+<% } %>
+<script src="/javascript/main.js"></script>
+<% if (user) { %>
+  <script>
+    readUser()
+    readServer()
+  </script>
+<% } %>
