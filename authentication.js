@@ -1,5 +1,5 @@
 // Development only require
-require('dotenv').config() // Comment when trying to launch
+// require('dotenv').config() // Comment when trying to launch
 
 const express = require('express'),
       router = express.Router(), // Use the router of express
