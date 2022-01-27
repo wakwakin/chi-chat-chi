@@ -237,6 +237,7 @@ router.post('/server/join', auth, async (req, res) => {
   await Servers.findOne({
     link: req.body.link
   }).then(async server => {
+    console.log(server)
     await Users.findOne({
       _id: req.body.uid
     }).then(async user => {
