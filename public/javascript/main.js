@@ -1,4 +1,4 @@
-let socket = new WebSocket(`ws://${ window.location.hostname }:${ window.location.port }`),
+let socket = new WebSocket(`wss://${ window.location.hostname }:${ window.location.port }`),
     uid = usn = utg = utn = chat_target = ''
 
 socket.onmessage = ({ data }) => {
