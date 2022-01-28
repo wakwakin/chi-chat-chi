@@ -23,21 +23,8 @@ socket.onmessage = ({ data }) => {
 
 $('#logout-button').click(function() {
   (function() {
-    const cookie = document.cookie.split('; ')
-    for (var i = 0; i < cookie.length; i++) {
-      const hostname = window.location.hostname.split('.')
-      while (hostname.length > 0) {
-        const cookieBase = encodeURIComponent(cookie[i].split(';')[0].split("=")[0]) + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + hostname.join('.') + ' ;path=',
-              pathName = location.pathname.split('/')
-
-        document.cookie = cookieBase + '/'
-        while (pathName.length > 0) {
-          document.cookie = cookieBase + pathName.join('/')
-          pathName.pop()
-        }
-        hostname.shift()
-      }
-    }
+    const cookie = document.cookie.split('=')
+    document.cookie = cookie[0] + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT;'
   })()
 
   $.ajax({
