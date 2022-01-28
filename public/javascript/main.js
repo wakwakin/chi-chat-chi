@@ -236,6 +236,13 @@ function createMessage(message) {
           message: message,
           target: chat_target
         }))
+          
+        socket.send(JSON.stringify ({
+          type: 3,
+          typing: utn,
+          user: usn,
+          target: chat_target
+        }))
       }
     }
   })
