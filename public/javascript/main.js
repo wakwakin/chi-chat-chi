@@ -14,6 +14,18 @@ socket.onmessage = ({ data }) => {
             <span>${ message.sender }: ${ message.message }</span>\
           </div>\
         `)
+      } else if (message.type == 2 && chat_target == message.target) {
+        if (message.user == usn) {
+          $('#message-typing').append(`\
+            <span id="${ message.user }">You are typing</span>
+          `)
+        } else {
+          $('#message-typing').append(`\
+            <span id="${ message.user }">${ message.typing } is typing</span>
+          `)
+        }
+      } else if (message.type == 3 && chat_target == message.target) {
+        $(`#message-typing span#${ message.user }`).remove()
       }
     }
   } catch(error) {
@@ -252,5 +264,22 @@ $('#message-button').click(function() {
   if (chat_target != '' || chat.length > 0) {
     createMessage(chat.val())
     chat.val('')
+  }
+})
+$('#message-text').keyup(function() {
+  if ($('#message-text').val().length > 0) {
+    socket.send(JSON.stringify ({
+      type: 2,
+      typing: utn,
+      user: usn,
+      target: chat_target
+    }))
+  } else {
+    socket.send(JSON.stringify ({
+      type: 3,
+      typing: utn,
+      user: usn,
+      target: chat_target
+    }))
   }
 })
