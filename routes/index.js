@@ -13,14 +13,14 @@ router.use(express.json())
 router.get('/', (req, res) => {
   try {
     const cookie = req.headers.cookie, // Get cookie
-          splitCookie = cookie.split(';') // Split the cookie by ;
-    let token = ''
-    for (i = 0; i < splitCookie.length; i++) {
-      const authorization = splitCookie[i].split('=')
-      if (authorization[0].trim() == 'authorization') { // If the cookie has authorization
-        token = authorization[1].trim() // Set the token with the value of the authorization value
-      }
-    }
+          splitCookie = cookie.split('=') // Split the cookie by ;
+    let token = splitCookie[1].trim()
+    // for (i = 0; i < splitCookie.length; i++) {
+    //   const authorization = splitCookie[i].split('=')
+    //   if (authorization[0].trim() == 'authorization') { // If the cookie has authorization
+    //     token = authorization[1].trim() // Set the token with the value of the authorization value
+    //   }
+    // }
     if (token == null) {
       return res.render('index', {
         user: false
@@ -113,7 +113,7 @@ router.get('/index', auth, async (req, res) => {
     return res.redirect('/')
   })
 })
-router.post('/logout', auth, async (req, res) => {
+router.post('/logout', async (req, res) => {
   await Users.findOneAndUpdate({
     _id: req.body.uid
   }, {
@@ -237,16 +237,16 @@ router.post('/server/join', auth, async (req, res) => {
   await Servers.findOne({
     link: req.body.link
   }).then(async server => {
-    console.log(server)
     await Users.findOne({
       _id: req.body.uid
     }).then(async user => {
-      if (server.members.contains(user.username)) {
+      let members = server.members
+      if (members.includes(user.username)) {
         return res.send({
           join: false
         })
       }
-      const members = server.members + user.username + ';'
+      members = server.members + user.username + ';'
       await Servers.findOneAndUpdate({
         link: req.body.link
       }, {
@@ -257,7 +257,8 @@ router.post('/server/join', auth, async (req, res) => {
         join: true
       })
     })
-  }).catch(() => {
+  }).catch((e) => {
+    console.log(e)
     return res.send({
       join: false
     })
@@ -300,7 +301,7 @@ router.post('/message', auth, async (req, res) => {
       let split = server.messages.split(';'),
           total = (split.length - 2) - 20
 
-      if ((split.length - 2) < 10) total = -1
+      if ((split.length - 2) < 20) total = -1
 
       for (i = (split.length - 2); i > total ; i--) {
         const data = split[i].split(':')
