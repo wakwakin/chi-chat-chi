@@ -15,19 +15,23 @@ socket.onmessage = ({ data }) => {
           </div>\
         `)
       } else if (message.type == 2 && chat_target == message.target) {
-        if ($(`#message-typing span#${ message.user }`).length == 0) {
+        if ($(`#message-typing div#${ message.user }`).length == 0) {
           if (message.user == usn) {
             $('#message-typing').append(`\
-              <span id="${ message.user }">You are typing</span>
+              <div id="${ message.user }">
+                <span>You are typing</span>
+              </div>
             `)
           } else {
             $('#message-typing').append(`\
-              <span id="${ message.user }">${ message.typing } is typing</span>
+              <div id="${ message.user }">
+                <span>${ message.typing } is typing</span>
+              </div>
             `)
           }
         }
       } else if (message.type == 3 && chat_target == message.target) {
-        $(`#message-typing span#${ message.user }`).remove()
+        $(`#message-typing div#${ message.user }`).remove()
       }
     }
   } catch(error) {
