@@ -8,7 +8,7 @@ socket.onmessage = ({ data }) => {
       if (message.type == 0) {
         $(`span[link="${ message.link }"]`).text(`[Members: ${ parseInt($(`span[link="${ message.link }"]`).attr('curr')) + 1 }]`)
       } else if (message.type == 1 && chat_target == message.target) {
-        $('#message-list div').first().remove()
+        if ($('#message-list div').length > 20) $('#message-list div').first().remove()
         $('#message-list').append(`\
           <div>\
             <span>${ message.sender }: ${ message.message }</span>\
@@ -100,6 +100,7 @@ function readUser() {
       $('#user-logged-in').text(utn + '#' + utg)
       $('#update-name').attr('placeholder', utn)
       $('#update-tag').attr('placeholder', utg)
+      $('#update-tag').val(utg)
     }
   })
 }
@@ -248,7 +249,7 @@ function readMessage(target) {
     },
     success: function(message) {
       $('#message-list').html('')
-      for (var i = 0; i < message.length; i++) {
+      for (var i = (message.length - 1); i > -1; i--) {
         $('#message-list').append(`\
           <div>\
             <span>${ message[i].sender }: ${ message[i].message }</span>\
